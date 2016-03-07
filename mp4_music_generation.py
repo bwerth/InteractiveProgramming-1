@@ -47,27 +47,41 @@ class Chord(object):
     return "{} chord with a starting note of {} at an inversion of {}".format(self.chordname,self.bottomnote,self.inversion)
     
   def createchord(self):
-    """
-    This method produces a list of note names that forms the chord given the parameters for the chord defined in the Chord class
-    """
-    chord = []
-    if self.chordname == 'minor':
-      chord.append(self.bottomnote.note)
-      chord.append(self.bottomnote.producenote(3))
-      chord.append(self.bottomnote.producenote(7))
-    elif self.chordname == 'diminished':
-      chord.append(self.bottomnote.note)
-      chord.append(self.bottomnote.producenote(3))
-      chord.append(self.bottomnote.producenote(6))
-    elif self.chordname == 'augmented':
-      chord.append(self.bottomnote.note)
-      chord.append(self.bottomnote.producenote(4))
-      chord.append(self.bottomnote.producenote(8))
-    else:
-      chord.append(self.bottomnote.note)
-      chord.append(self.bottomnote.producenote(4))
-      chord.append(self.bottomnote.producenote(7))
-    return chord
+  	"""
+	This method produces a list of note names that forms the chord given the parameters for the chord defined in the Chord class
+ 	"""
+	chord = []
+ 	if self.inversion == 0:
+		if self.chordname == 'minor':
+    		interval1,interval2 = 3,7
+    	elif self.chordname == 'diminished':
+    		interval1,interval2 = 3,6
+    	elif self.chordname == 'augmented':
+    		interval1,interval2 = 4,8
+    	else:
+    		interval1,interval2 = 4,7
+	elif self.inversion == 1:
+		if self.chordname == 'minor':
+			interval1,interval2 = 4,9
+		elif self.chordname == 'augmented':
+			interval1,interval2 = 4,8
+		elif self.chordname == 'diminished':
+			interval1,interval2 = 3,9
+		else:
+			interval1,interval2 = 3,8
+	elif self.inversion == 2:
+		if self.chordname == 'minor':
+			interval1,interval2 = 5,3
+		elif self.chordname == 'augmented':
+			interval1,interval2 = 4,4
+		elif self.chordname == 'diminished':
+			interval1,interval2 = 6,3
+		else:
+			interval1,interval2 = 5,4
+	chord.append(self.bottomnote.note)
+	chord.append(self.bottomnote.producenote(interval1))
+	chord.append(self.bottomnote.producenote(interval2))
+	return chord
     
 class ChordProgression(object):
   """
@@ -105,6 +119,7 @@ loc = [chord1,chord2]
 chordprog = ChordProgression()
 chordprog.loc = loc
 
+print chord1.createchord()
 print chordprog.createchordprogression()
 
 if __name__ == "__main__":
