@@ -8,14 +8,8 @@ class Note(object):
   """
   This class defines a note.  Its attributes are the note name, the octave, and the duration.
   The note name is a string, octave is an integer (C4 is middle C), duration is the number of beats (duration of 4 is a whole note
-  >>> note1.producenote(4)
-  'E'
-  >>> note2.producenote(5)
-  'A#'
-  >>> note1.producenote(0)
-  'C'
   """
-  note_list = ['A','A#','B','C','C#','D','D#','E','F','F#','G','G#']
+  note_list = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
   def  __init__(self,note = 'C',octave = 4,duration = 4):
     self.note = note
     self.octave = octave
@@ -41,17 +35,16 @@ class Note(object):
     noteindex = self.note_list.index(self.note)
     if noteindex+interval>len(self.note_list)-1:
       newnoteindex = noteindex+interval-len(self.note_list)
+      octave = self.octave + 1
     else:
       newnoteindex = noteindex+interval
-    return self.note_list[newnoteindex]
+      octave = self.octave
+    newnote = Note(self.note_list[newnoteindex],octave,self.duration)
+    return newnote
   
 class Chord(object):
   """
   This class defines chords made up of notes.  Its attributes are bottomnote, chord name, and chord inversion
-  >>> chord1.createchord()
-  ['C', 'D#', 'G']
-  >>> chord2.createchord()
-  ['A', 'C', 'F']
   """
   def __init__(self,bottomnote = Note(),chordname = '',inversion = 0):
     self.bottomnote = bottomnote
@@ -102,10 +95,6 @@ class Chord(object):
 class ChordProgression(object):
   """
   This class defines a chord progression made up of chords. Its attribute is a list of chords (loc)
-  >>> chordprog.createchordprogression()
-  [['C', 'D#', 'G'], ['A', 'C', 'F']]
-  >>> chordprog2.createchordprogression()
-  []
   """
   def __init__(self,LoC = []):
     self.loc = LoC
@@ -140,9 +129,9 @@ loc = [chord1,chord2]
 chordprog = ChordProgression()
 chordprog2 = ChordProgression()
 chordprog.loc = loc
+list1 = chord2.createchord()
 
-print chord2.createchord()
-print chordprog.createchordprogression()
+print list1[1]
 
 if __name__ == "__main__":
     import doctest
