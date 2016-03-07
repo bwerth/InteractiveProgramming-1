@@ -34,7 +34,7 @@ def realize_chord(chordstring, numofpitch=3, baseoctave=4, direction="ascending"
     return result
  
   # define a chord progression as a string of all the chords
-chords = "C G Am F C"
+chords = "C G Am Dm Em F C"
   # scale in which to interpret these chords
 scale = music21.scale.MajorScale("C")
   # realize the chords in octave 4 (e.g. 4)
@@ -42,7 +42,7 @@ octave = 4
   # realize the chords using half notes (e.g. 1 for a whole note)
 quarterLength = 2
 
-chord_size=3
+chord_size=5
 
 voices=2
   # convert chords to notes and stuff into a stream
@@ -60,8 +60,9 @@ for c in splitted_chords:
   for v in range(voices):
     if v==voices-1 and c==splitted_chords[-1]:
   		pitch = realize_chord(c, 1, octave, direction="ascending")
-		note = music21.note.Note(quarterLength)
+		note = music21.note.Note()
 		note.pitches=pitch
+		note.quarterLength=quarterLength
 		stream[voices-1].append(note)
 		print "hello"
     else:
@@ -78,3 +79,7 @@ for s in stream:
   streams.insert(0, copy.deepcopy(stream[s]))
 
 streams.show("text")
+mf = music21.midi.translate.streamToMidiFile(streams)
+mf.open('test123.mid', 'wb')
+mf.write()
+mf.close()
