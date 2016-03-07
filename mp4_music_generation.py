@@ -1,10 +1,21 @@
-note_list = ['A','A#','B','C','C#','D','D#','E','F','F#','G','G#']
+"""
+This program takes a chord progression as input and randomly generates a melody.
+
+@author: Joseph Lee and Bryan Werth
+
+"""
 class Note(object):
   """
   This class defines a note.  Its attributes are the note name, the octave, and the duration.
   The note name is a string, octave is an integer (C4 is middle C), duration is the number of beats (duration of 4 is a whole note
+  >>> note1.producenote(4)
+  'E'
+  >>> note2.producenote(5)
+  'A#'
+  >>> note1.producenote(0)
+  'C'
   """
-  
+  note_list = ['A','A#','B','C','C#','D','D#','E','F','F#','G','G#']
   def  __init__(self,note = 'C',octave = 4,duration = 4):
     self.note = note
     self.octave = octave
@@ -27,16 +38,20 @@ class Note(object):
     """
     This method produces the name of a note a given number of half steps higher than self
     """
-    noteindex = note_list.index(self.note)
-    if noteindex+interval>len(note_list)-1:
-      newnoteindex = noteindex+interval-len(note_list)
+    noteindex = self.note_list.index(self.note)
+    if noteindex+interval>len(self.note_list)-1:
+      newnoteindex = noteindex+interval-len(self.note_list)
     else:
       newnoteindex = noteindex+interval
-    return note_list[newnoteindex]
+    return self.note_list[newnoteindex]
   
 class Chord(object):
   """
   This class defines chords made up of notes.  Its attributes are bottomnote, chord name, and chord inversion
+  >>> chord1.createchord()
+  ['C', 'D#', 'G']
+  >>> chord2.createchord()
+  ['A', 'C', 'F']
   """
   def __init__(self,bottomnote = Note(),chordname = '',inversion = 0):
     self.bottomnote = bottomnote
@@ -87,6 +102,10 @@ class Chord(object):
 class ChordProgression(object):
   """
   This class defines a chord progression made up of chords. Its attribute is a list of chords (loc)
+  >>> chordprog.createchordprogression()
+  [['C', 'D#', 'G'], ['A', 'C', 'F']]
+  >>> chordprog2.createchordprogression()
+  []
   """
   def __init__(self,LoC = []):
     self.loc = LoC
@@ -112,13 +131,14 @@ note2.note = 'F'
 note2.duration = 2
 chord1 = Chord()
 chord1.bottomnote = note1
-chord1.chordname = 'major'
+chord1.chordname = 'minor'
 chord2 = Chord()
 chord2.bottomnote = note2
 chord2.chordname = 'major'
 chord2.inversion = 1
 loc = [chord1,chord2]
 chordprog = ChordProgression()
+chordprog2 = ChordProgression()
 chordprog.loc = loc
 
 print chord2.createchord()
