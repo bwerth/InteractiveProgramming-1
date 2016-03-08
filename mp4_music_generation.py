@@ -4,6 +4,8 @@ This program takes a chord progression as input and randomly generates a melody.
 @author: Joseph Lee and Bryan Werth
 
 """
+import random
+
 class Note(object):
   """
   This class defines a note.  Its attributes are the note name, the octave, and the duration.
@@ -16,7 +18,7 @@ class Note(object):
     self.duration = duration
     
   def  __str__(self):
-    return "{}{} duration {} beats".format(self.note,self.octave,self.duration)
+    return "{}{}".format(self.note,self.octave)
    
   """ 
   def name_interval(self,other):
@@ -114,6 +116,36 @@ class ChordProgression(object):
       loc.append(chord.createchord())
     return loc
 
+  def createmelody(self):
+    """
+    This method produces a string melody given a chord progression
+    """
+    listofchords = self.createchordprogression()
+    melody = ''
+    for chord in listofchords:
+      melody = melody + str(random.choice(chord)) + ' '
+    return melody
+
+
+  #def createchordprogressionfromstring(self,chordstring,octave,duration):
+    #notelist = chordstring.split(" ")
+    #notelist = [chord.replace('m',' minor') for chord in chordlist]
+    #notelist = [chord.replace('aug',' augmented') for chord in chordlist]
+    #notelist = [chord.replace('dim',' diminished') for chord in chordlist]
+    #notelist = [chord.split(" ") for chord in chordlist]
+    #chordlist = []
+    #newnote = Note(chordlist[0][0],octave,duration)
+    #if chordlist[0][1]
+    #newchord = Chord(newnote,chordlist[0][1],0)
+    #chordlist.append(newchord)
+    #for chord in chordlist:
+
+      
+
+
+
+
+
 note1 = Note()
 note2 = Note()
 note2.note = 'F'
@@ -130,8 +162,9 @@ chordprog = ChordProgression()
 chordprog2 = ChordProgression()
 chordprog.loc = loc
 list1 = chord2.createchord()
+melody1 = chordprog.createmelody()
 
-print list1[1]
+print melody1
 
 if __name__ == "__main__":
     import doctest
