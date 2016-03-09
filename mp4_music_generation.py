@@ -5,6 +5,8 @@ This program takes a chord progression as input and randomly generates a melody.
 
 """
 import random
+import music21
+import copy
 
 class Note(object):
   """
@@ -120,10 +122,10 @@ class ChordProgression(object):
     """
     This method produces a string melody given a chord progression
     """
+    melody=[]
     listofchords = self.createchordprogression()
-    melody = ''
     for chord in listofchords:
-      melody = melody + str(random.choice(chord)) + ' '
+      melody.append(str(random.choice(chord)))
     return melody
 
 
@@ -140,31 +142,59 @@ class ChordProgression(object):
     #chordlist.append(newchord)
     #for chord in chordlist:
 
-      
 
+def chordgenerator(chords):
+  """
+  This function accepts a list of lists describing chords and produces a list of chords, making this program more user friendly
+  """
+  loc=[]
+  durations=[]
+  for c in chords:
+	 #chord has four parameters, for example ["C","major",4,2] would create a C major chord with bottom note C4 with a duration of two beats
+    note=Note()
+    chord=Chord()
+    note.note=c[0]
+    note.octave=c[2]
+    note.duration=c[3]
+    chord.chordname=c[1]
+    chord.bottomnote=note
+    loc.append(chord)
+    durations.append(c[3])
+  return (loc,durations)
 
-
-
-
-note1 = Note()
-note2 = Note()
-note2.note = 'F'
-note2.duration = 2
-chord1 = Chord()
-chord1.bottomnote = note1
-chord1.chordname = 'minor'
-chord2 = Chord()
-chord2.bottomnote = note2
-chord2.chordname = 'major'
-chord2.inversion = 1
-loc = [chord1,chord2]
+chords=[["C","major",4,1],["F","major",4,1],["G","major",4,2],["A","minor",4,1],["E","minor",4,1],["F","major",4,2],["C","major",4,4]]	
+chord_info = chordgenerator(chords)
+loc=chord_info[0]
+duration=chord_info[1]
 chordprog = ChordProgression()
-chordprog2 = ChordProgression()
 chordprog.loc = loc
-list1 = chord2.createchord()
-melody1 = chordprog.createmelody()
+durations=duration
 
-print melody1
+voices=3
+  # convert chords to notes and stuff into a stream
+
+stream = {}
+
+for v in range(voices):
+	stream[v] = music21.stream.Stream()
+# split each chord into a separate voice
+for v in range(voices):
+  melody1 = chordprog.createmelody()
+  for index,notes in enumerate(melody1):
+		pitch=notes
+		note = music21.note.Note(pitch)
+		note.quarterLength=durations[index]
+		stream[v].append(note)
+
+
+ # combine all voices to one big stream
+streams = music21.stream.Stream()
+for s in stream:
+  streams.insert(0, copy.deepcopy(stream[s]))
+mf = music21.midi.translate.streamToMidiFile(streams)
+mf.open('test123.mid', 'wb')
+mf.write()
+mf.close()
 
 if __name__ == "__main__":
     import doctest
