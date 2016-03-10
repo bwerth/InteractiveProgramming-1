@@ -1,0 +1,13 @@
+To run the Interactive Algorithmic Music Composition program follow the following steps:
+
+	Be sure to download and install music21 and musescore.  Be sure that musescore is the defaul program for opening MIDI files.
+	Details on how to download and install these programs can be found on their respective websites.
+
+	Download the mp4_music_generation.py file into the directory ~\InteractiveProgramming-1
+	If the above directory does not exist, create it
+
+	From the command line, go to the InteractiveProgramming-1 directory
+	In the command line, call the following line of code:
+	python mp4_music_generation.py
+
+	From there, follow the prompts in the command line.
