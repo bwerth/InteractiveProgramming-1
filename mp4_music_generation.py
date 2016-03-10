@@ -7,14 +7,15 @@ This program takes a chord progression as input and randomly generates a melody.
 import random
 import music21
 import copy
+import os
 
 class Note(object):
   """
   This class defines a note.  Its attributes are the note name, the octave, and the duration.
   The note name is a string, octave is an integer (C4 is middle C), duration is the number of beats (duration of 4 is a whole note
   """
-  note_list = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
-  def  __init__(self,note = 'C',octave = 4,duration = 4):
+  note_list = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']#		because MIDI interface is used, there is no distinction between flats and sharps i.e. D# is the same as Eb etc.
+  def  __init__(self,note = 'C',octave = 4,duration = 4):#					Default note is middle C (C4) with a duration of 4 beats
     self.note = note
     self.octave = octave
     self.duration = duration
@@ -36,8 +37,8 @@ class Note(object):
     """
     This method produces the name of a note a given number of half steps higher than self
     """
-    noteindex = self.note_list.index(self.note)
-    if noteindex+interval>len(self.note_list)-1:
+    noteindex = self.note_list.index(self.note)#				finds the index of self within the list of notes
+    if noteindex+interval>len(self.note_list)-1:#				These lines handle the case where the notes wrap around, for example, from B4 to C5
       newnoteindex = noteindex+interval-len(self.note_list)
       octave = self.octave + 1
     else:
@@ -75,7 +76,7 @@ class Chord(object):
     	 interval2,interval3 = 4,7
     elif self.inversion == 1:
 		  if self.chordname == 'minor':
-			 interval1,interval2,interval3 = 3,7,12
+			 interval1,interval2,interval3 = 3,7,12#			This entire block of code defines the intervals in terms of half steps for the four main chord types of all three inversions.
 		  elif self.chordname == 'augmented':
 			 interval1,interval2,interval3 = 4,8,12
 		  elif self.chordname == 'diminished':
@@ -129,20 +130,6 @@ class ChordProgression(object):
     return melody
 
 
-  #def createchordprogressionfromstring(self,chordstring,octave,duration):
-    #notelist = chordstring.split(" ")
-    #notelist = [chord.replace('m',' minor') for chord in chordlist]
-    #notelist = [chord.replace('aug',' augmented') for chord in chordlist]
-    #notelist = [chord.replace('dim',' diminished') for chord in chordlist]
-    #notelist = [chord.split(" ") for chord in chordlist]
-    #chordlist = []
-    #newnote = Note(chordlist[0][0],octave,duration)
-    #if chordlist[0][1]
-    #newchord = Chord(newnote,chordlist[0][1],0)
-    #chordlist.append(newchord)
-    #for chord in chordlist:
-
-
 def chordgenerator(chords):
   """
   This function accepts a list of lists describing chords and produces a list of chords, making this program more user friendly
@@ -162,7 +149,19 @@ def chordgenerator(chords):
     durations.append(c[3])
   return (loc,durations)
 
-chords=[["C","major",4,1],["F","major",4,1],["G","major",4,2],["A","minor",4,1],["E","minor",4,1],["F","major",4,2],["C","major",4,4]]	
+
+
+chords = []
+numofchords = int(raw_input("\n\nHow many chords are there in your chord progression?\n"))
+for i in range(numofchords):
+   note = raw_input("\n\nWhat is the bottom note name of the chord? \n")
+   octave = raw_input("\n \nWhat is the octave of the bottom note of the chord? \n")
+   octave = int(octave)
+   duration = raw_input("\n \nHow many beats is the chord? \n")
+   duration = int(duration)
+   chordname = raw_input("\n \nIs the chord major, minor, augmented, or diminished \n")
+   chords.append([note,chordname,octave,duration])
+
 chord_info = chordgenerator(chords)
 loc=chord_info[0]
 duration=chord_info[1]
@@ -190,12 +189,9 @@ for v in range(voices):
  # combine all voices to one big stream
 streams = music21.stream.Stream()
 for s in stream:
-  streams.insert(0, copy.deepcopy(stream[s]))
-mf = music21.midi.translate.streamToMidiFile(streams)
-mf.open('test123.mid', 'wb')
+  streams.insert(0, copy.deepcopy(stream[s]))#			Inserts a deepcopy of all of the notes in the stream dictionary - this handles multiple voices such that the voices are overlayed on each other
+mf = music21.midi.translate.streamToMidiFile(streams)#	This creates a MIDI file of the total stream
+mf.open('temp.mid', 'wb')
 mf.write()
 mf.close()
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
+os.system('/usr/bin/xdg-open ~/InteractiveProgramming-1/temp.mid')#		This line opens the MIDI file with the default program
