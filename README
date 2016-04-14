@@ -11,3 +11,34 @@ To run the Interactive Algorithmic Music Composition program follow the followin
 	python mp4_music_generation.py
 
 	From there, follow the prompts in the command line.
+	
+Note:
+	For the final project, this code is being completely re-written.
+	Currently, we have three seperate partially completed scripts that each perform a subset of our final product.
+	These subsections and their purpose is described below:
+	
+	Graphical User Interface:
+		Currently we have a simple GUI implemented in Kivy that accepts user input in a text box style entry and then displays the
+		input on another screen when the user clicks on a button.
+		
+		Future work on this program will be to adapt the user input towards more applicable data for our current algorithms and then
+		outputting the user input directly into the other functions in this program.
+	
+	Canon Generation:
+		In its current revision, the script "music21_canon_generator.py" pulls the soprano line from BWV 321 (chorale)
+		it then transposes the part in several ways - both by changing the rhyhm and by shifting the line up or down by
+		a specified interval.  Finally, the script merges everything together into a single stream and exports as a MIDI
+		file.  The script also automatically opens this file with MuseScore if it is installed and set as the default program
+		for opening MIDI files.
+		
+		In future revisions, this script will accept a melody as input and harmonize the melody in various manners to generate
+		a musical work.
+	
+	Markov Probability Melody Generation:
+		This script is designed to be the first attempt towards algorithmically producing melodies.  In its current form, it
+		accepts a string as input and generates a 2nd order markov probability dictionary where the key is the previous two states
+		and the value is a list of transitions following those two previous states.
+		
+		Future work on this script will be focussed on breaking down a musical score into strings or some other form of encoding to
+		be input into this markov probability generator.  Also needed will be a function that uses the markov probability maps to
+		actually generate melodies encoded as strings and then deciphered back into musical notes.

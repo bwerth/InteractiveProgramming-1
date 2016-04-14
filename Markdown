@@ -1,0 +1,17 @@
+
+Link to the Preparation and Framing Document:
+https://docs.google.com/presentation/d/1BCcwK9npsLyQ6kWnlk22IfIlvOL7eBKWjWfOXgAzfIQ/edit?ts=56fc5e14#slide=id.p
+
+Agenda
+Brief overview of the current and anticipated program functionality (5 min.)
+Discussion of GUI implementation and program functionality (20 min.)
+
+Background and Context
+The final product will be a program that allows for user input that is used to generate music
+Currently, the program takes a chord progression as input and produces a melody
+We hope to expand on the current program by implementing a GUI and a more sophisticated algorithm that handles some combination of harmonies, rhythms, genres, and a complete song structure
+
+Key Questions:
+What genre/type of music should we focus our first efforts towards?
+What are some good Python libraries for developing GUIs with features such as drop-down menus, click-and-drag functionality, and buttons?  Does anyone have experience with Kivy?
+We are considering developing a product that allows the user to choose how much of the song is algorithmically generated vs. how much of the song is composed by the user.  Do you have any thoughts on things you would like to be able to tell the program? (for example, the key of the piece, the length, the melody, the tempo, etc.)

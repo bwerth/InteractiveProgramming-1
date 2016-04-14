@@ -72,4 +72,8 @@ class TestApp(App):
         return sm
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     TestApp().run()
+=======
+    TestApp().run()
+>>>>>>> 34f4ea81da481a41ac96b2233e8cf64440fd6d75
