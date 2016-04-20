@@ -8,9 +8,9 @@ excerpt = soprano.flat.notesAndRests.stream()
 outputScore = music21.stream.Score()
 
 transformations = [(1.0, 'P1'),
-                   (1.0, 'P1'),
+                   (2.0, 'P1'),
                    (1.0, 'P5'),
-                   (1.0, 'P5')
+                   (2.0, 'P5')
                   ]
 
 for speed, transposition in transformations:
