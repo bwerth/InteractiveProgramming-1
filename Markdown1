@@ -1,0 +1,12 @@
+Agenda
+Brief overview of the current and anticipated program functionality (5 min.)
+Discussion of program functionality and current interface design (20 min.)
+
+Background and Context
+The final product will be a program that takes a genre of music and a duration of time as input and outputs a song of the chosen genre that is the given length.
+The song will be generated using a modified markov chain that analyzes a data set of songs of the chosen genre. 
+The GUI for the program will be produced using Kivy. 
+
+Key Questions:
+What genres of music would you want to be able to choose from?
+Is there any related functionality that you would want this program to have?
