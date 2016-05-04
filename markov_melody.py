@@ -100,7 +100,7 @@ def generate_string_1(note_seed, rhythm_seed,length,note_database,rhythm_databas
 
 
 
-def generate_string_2(note_seed, rhythm_seed,length,note_database,rhythm_database):
+def generate_string_2(note_seed,length,note_database,rhythm_database,rhythm_seed=[2.0,2.0]):
     """
     Given a note seed in the format [first note, second note], a rhythm seed in the format [quarter length for first note, quarter length for second note]
     the length of the desired output melody, a markov dictionary for the melody, and a markov dictionary for the rhythm, this function returns a tuple of lists
@@ -109,9 +109,9 @@ def generate_string_2(note_seed, rhythm_seed,length,note_database,rhythm_databas
     rhythm_output=[]
     note_output=[]
     note_output.append(note_seed[0])
-    note_output.append(note_seed[1])
+    note_output.append(note_seed[0])
     rhythm_output.append(rhythm_seed[0])
-    rhythm_output.append(rhythm_seed[1])
+    rhythm_output.append(rhythm_seed[0])
 
     for i in range(length-2):
         i=i+2
@@ -126,7 +126,7 @@ def generate_string_2(note_seed, rhythm_seed,length,note_database,rhythm_databas
 
     return (note_output,rhythm_output)
 
-def generate_string_3(note_seed, rhythm_seed,length,note_database,rhythm_database):
+def generate_string_3(note_seed,length,note_database,rhythm_database,rhythm_seed=[2.0,1.0,1.0]):
     """
     Given a note seed in the format [first note, second note,third note], a rhythm seed in the format [quarter length for first note, quarter length for second
     note, quarter length for third note]
@@ -136,11 +136,11 @@ def generate_string_3(note_seed, rhythm_seed,length,note_database,rhythm_databas
     rhythm_output=[]
     note_output=[]
     note_output.append(note_seed[0])
-    note_output.append(note_seed[1])
-    note_output.append(note_seed[2])
+    note_output.append(note_seed[0])
+    note_output.append(note_seed[0])
     rhythm_output.append(rhythm_seed[0])
-    rhythm_output.append(rhythm_seed[1])
-    rhythm_output.append(rhythm_seed[2])
+    rhythm_output.append(rhythm_seed[0])
+    rhythm_output.append(rhythm_seed[0])
 
     for i in range(length-3):
         i=i+3
@@ -209,7 +209,7 @@ def generate_melody(list_of_notes, list_of_rhythms):
     mf.close()
     os.system('/usr/bin/xdg-open ~/InteractiveProgramming-1/markov_melody.mid')#        This line opens the MIDI file with the default program
 
-def generate_song(length,dataset_index,note_seed,rhythm_seed,markov_order):
+def generate_song(length,dataset_index,note_seed,markov_order):
     scores=get_dataset(dataset_index)
     melody=generate_note_lists(scores)
     rhythm=generate_rhythm_lists(scores)
@@ -229,7 +229,7 @@ def generate_song(length,dataset_index,note_seed,rhythm_seed,markov_order):
         rhythm_triples=triples(rhythm)
         note_database=markov_table_2(note_triples)
         rhythm_database=markov_table_2(rhythm_triples)
-        newsong=generate_string_2(note_seed, rhythm_seed,length,note_database,rhythm_database)
+        newsong=generate_string_2(note_seed,length,note_database,rhythm_database)
         list_of_notes=newsong[0]
         list_of_rhythms=newsong[1]
         generate_melody(list_of_notes, list_of_rhythms)
@@ -239,15 +239,11 @@ def generate_song(length,dataset_index,note_seed,rhythm_seed,markov_order):
         rhythm_quadrouples=quadrouples(rhythm)
         note_database=markov_table_3(note_quadrouples)
         rhythm_database=markov_table_3(rhythm_quadrouples)
-        newsong=generate_string_3(note_seed, rhythm_seed,length,note_database,rhythm_database)
+        newsong=generate_string_3(note_seed,length,note_database,rhythm_database)
         list_of_notes=newsong[0]
         list_of_rhythms=newsong[1]
         generate_melody(list_of_notes, list_of_rhythms)
     else:
         print "Sorry, that markov order is not an option"
 
-<<<<<<< HEAD
-generate_song(50,0,["C","D","E-"],[2.0,1.0,1.0],3)
-=======
-generate_song(50,0,["C","F","G"],[3.0,1.0,1.0],3)
->>>>>>> 3aaaea8f6d5cb6fcdcc4678b4f6f28c69af952f9
+generate_song(50,0,"C",3)
