@@ -169,7 +169,7 @@ chordprog = ChordProgression()
 chordprog.loc = loc
 durations=duration
 
-voices=3
+voices=4
   # convert chords to notes and stuff into a stream
 
 stream = {}

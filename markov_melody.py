@@ -246,4 +246,8 @@ def generate_song(length,dataset_index,note_seed,rhythm_seed,markov_order):
     else:
         print "Sorry, that markov order is not an option"
 
+<<<<<<< HEAD
 generate_song(50,0,["C","D","E-"],[2.0,1.0,1.0],3)
+=======
+generate_song(50,0,["C","F","G"],[3.0,1.0,1.0],3)
+>>>>>>> 3aaaea8f6d5cb6fcdcc4678b4f6f28c69af952f9
