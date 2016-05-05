@@ -1,69 +1,147 @@
 #: kivy 1.7.2
+#The screen manager defines the screens used in the GUI, the title screen and the menu screen.
 <ScreenManager>:
     id: screen_manager
+    TitleScreen:
+        name: 'TitleScreen'
+        manager: screen_manager
     MenuScreen:
         id: menu_screen
         name: 'MenuScreen'
         manager: screen_manager
-    SettingsScreen:
-        name: 'SettingsScreen'
-        manager: screen_manager
 
+#The dropdown options are defined here. The two options are a beethoven training set and a haydn training set
 <CustomDropDown>:
     Button:
-        id: btn1
-        text: 'Value 1'
+        id: Beethoven
+        #The text seen on the option
+        text: 'Beethoven'
         size_hint_y: None
+        #The height of this dropdown box
         height: 44
-        on_release: root.select('item1')
+        #If this dropdown option is clicked on, on release, the beethoven button is selected
+        on_release: root.select('Beethoven')
     Button:
-        id: btn2
-        text: 'Value 2'
+        id: Haydn
+        #The text shown on the option
+        text: 'Haydn'
         size_hint_y: None
+        #The height of this dropdown box
         height: 44
-        on_release: root.select('item2')
+        #If this dropdown option is clicked on, on release, the haydn button is selected
+        on_release: root.select('Haydn')
+
+<TitleScreen>:
+    #The float layout allows labels to be placed anywhere on the screen. The label is not bound by the location of the 
+    #items around it.
+    FloatLayout:
+        #The text shown on the screen is called a label
+        Label:
+            #The actual text string
+            text: "Algorithmic Music Composer"
+            #The size of the text is a percent so that the actual size is dependent on the screen
+            #This makes the program more adaptable.
+            size_hint: (.5,.125)
+            #As for the size, the position is dependent on the actual size of the screen. Defined
+            #in terms of the x and y directions
+            pos_hint: {'x':.38,'y':.5}
+            text_size: self.size
 
 <MenuScreen>:
-    FloatLayout:
+    ddID: ddID
+    #The eight items under the grid layout are automatically placed in a grid
+    GridLayout:
+        #four rows in the grid
+        rows: 4
+        #two columns in the grid
+        cols: 2
+        #default height for each row
+        row_default_height: 40
+        #Padding and spacing separates the items so they are not touching at all
+        padding: 10
+        spacing: 10
+        #The first label is in the top left.
         Label:
-            text: "In order to create a melody based on a music genre, you need to decide whether the current note is based on the 1, 2, 3, 4, or 5 last notes. Please enter one of these numbers."
-            size_hint: (.5,.125)
-            pos_hint: {'x':.25,'y':.7}
+            text: "In order to create a melody based on a music genre, you need to decide whether the current note is based on the one, two, or three last notes. Please enter one of these numbers."
             text_size: self.size
+            #Centers the text so it looks more refined and professional
+            halign: 'center'
+        #The text input corresponding to the first label is in the top right
         TextInput:
-            id: menu_screen
-            text: "Enter the desired number of chords"
-            size_hint: (.5,.125)
-            pos_hint: {'x':.25,'y':.5}
+            #the name of this text input for reference elsewhere
+            id: markov_order
+            #the text that will be automatically placed here. It can be deleted by the user.
+            text: "Enter an integer between one and three."
+            #There is only one line in the text input. The text will not wrap around because
+            #the input should only be a number
             multiline: False
-        Button:
-            id: btn_ddID
-            text: 'Hello'
-            size_hint: (None, None)
-            height: 44
-            pos_hint: {'x':.5,'y':.5}
-            on_release: root.drop_down.open(self)
-        Button:
-            text: 'Generate Melody'
-            on_press: 
-            #transfer the user input from the menu screen to the settings screen for later use
-                root.manager.get_screen('SettingsScreen').label_text.text = str(menu_screen.text)
-            #change to the settings screen after the user input has been accounted for
-                root.manager.current = 'SettingsScreen'
-            size_hint: (.25,.125)
-            pos_hint: {'x':.375,'y':.3}
-
-<SettingsScreen>:
-    label_text: label_text
-    FloatLayout:
+        #The second label is directly below the first one
         Label:
-            id: label_text
-            #The text here does not matter because the label_text text parameter is changed manually when the user clicks the button on the 
-            text: '1'
-            size_hint: (.125,.0625)
-            pos_hint: {'x':0,'y':.9375}
+            #label text string
+            text: "How long do you want the song to be?"
+        #text input to the right of the corresponding label
+        TextInput:
+            #name of the text input for reference elsewhere
+            id: length
+            #pre-placed text
+            text: "Enter the song length in measures"
+            multiline: False
+        #Third row down to the left
+        Label:
+            #label text string
+            text: "What do you want the starting note of the song to be?"
+        #Third row down to the right
+        TextInput:
+            #name for reference elsewhere
+            id: starting_note
+            #pre-placed text
+            text: "Enter the starting note as a capitalized letter followed by # if you want a sharp or - if you want a flat"
+        #Fourth row on the right
+        Label:
+            text: "What style of music do you want the song to be?"
+        #Bottom right drop down menu 
         Button:
-            text: 'Back to menu'
-            on_press: root.manager.current = 'menu'
-            size_hint: (.125,.0625)
-            pos_hint: {'x':.125,'y':.9375}
+            #id: notesDropDownID
+            id: ddID
+            #The original text on the drop down button
+            text: 'Training Sets'
+            #When the mouse is released over the button, the menu will open
+            on_release: 
+                root.drop_down.open(self)
+    #Float layout so other things on the same screen can be placed anywhere
+    FloatLayout:
+        #The final generate melody button near the bottom of the screen.
+        Button:
+            #the text for the button
+            text: 'Generate Melody'
+            #When the button is pressed
+            on_press: 
+                #the get_datasetindex() for the menuscreen is called to figure out which of the 
+                #dropdown options was selected. An integer corresponding to the chosen dropdown button
+                #is defined as a parameter dataset_index for use later
+                root.manager.get_screen('menu').get_datasetindex()
+                #Using inputs from the three text inputs and drop down menu, the final algorithm code 
+                #is called to generate a song and open musescore for the user to play it
+                root.manager.get_screen('menu').generate_song(int(length.text),root.manager.get_screen('menu').dataset_index,starting_note.text,int(markov_order.text))
+            #transfer the user input from the menu screen to the settings screen for later use
+                #root.manager.get_screen('settings').label_text.text = str(menu_screen.text)
+            #change to the settings screen after the user input has been accounted for
+                #root.manager.current = 'settings'
+            #Defines the size of the text of the button as a percentage so it adapts based on the size of the screen
+            size_hint: (.20,.125)
+            #The position of the button is again defined as percentage
+            pos_hint: {'x':.4,'y':.10}
+        #The about button redirects the user to the project website 
+        Button:
+            #size is defined as a percentage
+            size_hint: .125, .1
+            #position is defined at the origin, which is the bottom left of the screen
+            pos_hint: {'x': 0, 'y': 0}
+            #text on the button
+            text: 'About'
+            #on button press...
+            on_press: 
+                #imports something that can be used to call the project website
+                import webbrowser
+                #opens the project website from local storage
+                webbrowser.open('bwerth.github.io.html')

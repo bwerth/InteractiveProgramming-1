@@ -40,16 +40,27 @@ class MenuScreen(Screen):
     #sets the dataset_index to zero
     dataset_index = 0
 
+    #The init method initializes the menu screen. Mainly the drop down menu is here.
     def __init__(self,*args,**kwargs):
         super(MenuScreen, self).__init__(*args, **kwargs)
+        #Defines the drop_down parameter as a custom drop down
         self.drop_down = CustomDropDown()
-        mainbutton = Button(text='Hello', size_hint=(None, None))
+        #Defines the main button for the drop down
+        mainbutton = Button(text='Training Sets', size_hint=(None, None))
+        #binds the mainbutton to the drop down
         mainbutton.bind(on_release=self.drop_down.open)
+        #Sets the text shown on the mainbutton to change when one of the drop down
+        #options is selected
         self.drop_down.bind(on_select=lambda instance, x: setattr(self.ddID, 'text', x))
 
+    #This method is used mainly in the test.kv file. When the generate melody button is 
+    #selected, the get_datasetindex checks which drop down option was selected defines the
+    #dataset_index in a corresponding way
     def get_datasetindex(self):
+        #If btn1 is selected, the index is 0
         if self.ddID == 'btn1':
             self.dataset_index = 0
+        #If btn2 is selected, the index is 1
         elif self.ddID == 'btn2':
             self.dataset_index = 1
 
@@ -291,23 +302,30 @@ class MenuScreen(Screen):
         else:
             print "Sorry, that markov order is not an option"
 
+#SettingsScreen class is not used, ignore this
 class SettingsScreen(Screen):
     pass
 
 
 
-# Create the screen manager and add the two previously defined screens to it.
-
+#TestApp class builds and initializes the app
 class TestApp(App):
 
+    #defines the screen manager of the app
     screen_manager = ScreenManager()
 
+    #The build method
     def build(self):
         #self.screen_manager = ScreenManager()
+        #Adds the title screen to the screen manager
         self.screen_manager.add_widget(TitleScreen(name='title'))
+        #Adds the menu screen to the screen manager
         self.screen_manager.add_widget(MenuScreen(name='menu'))
-        self.screen_manager.add_widget(SettingsScreen(name='settings'))
+        #self.screen_manager.add_widget(SettingsScreen(name='settings'))
+        #Defines the clock that is used to limit the length of time the clock is on
         clock = NewClock()
+        #Schedules an event to be called after four seconds. After four seconds the update 
+        #function from the clock class is called
         Clock.schedule_once(clock.update, 4)
         return self.screen_manager
 
