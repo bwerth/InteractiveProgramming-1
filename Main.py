@@ -13,29 +13,31 @@ import random
 import copy
 from kivy.uix.image import Image
 
-# Declare both screens as separate classes. Currently there is nothing in here, but there will be when we fill out the GUI.
-class Logo(Image):
-    def __init__(self, **kwargs):
-        super(Logo, self).__init__(**kwargs)
-        self.size = self.texture_size
-
+#The newclock class is used to limit the amount of time the title screen is present
 class NewClock(Label):
+    #The update function within the newclock class changes the current screen
+    #to the menu screen when it is called.
     def update(self, *args):
+        #The current screen of the testapp screen manager is defined as the menu screen
         TestApp.screen_manager.current = 'menu'
 
+#The customdropdown class is empty because everything pertaining to the custom drop down class
+#is defined in the corresponding kv file.
 class CustomDropDown(DropDown):
-    for i in range(5):
-        print i 
+    pass
 
+#Everything important in the title screen is defined in the kv file, so this is also empty.
 class TitleScreen(Screen):
     pass
 
+#The menu screen class
 class MenuScreen(Screen):
-    translateInput = ObjectProperty(None)
-    translateButton = ObjectProperty(None)
-    translateLabel = ObjectProperty(None)
-    top_layout = ObjectProperty(None)
-    dd_btn = ObjectProperty(None)
+    #translateInput = ObjectProperty(None)
+    #translateButton = ObjectProperty(None)
+    #translateLabel = ObjectProperty(None)
+    #top_layout = ObjectProperty(None)
+    #dd_btn = ObjectProperty(None)
+    #sets the dataset_index to zero
     dataset_index = 0
 
     def __init__(self,*args,**kwargs):
@@ -138,7 +140,7 @@ class MenuScreen(Screen):
             note_output.append(next_state)#			add this to the output
             rhythm_key=rhythm_output[i-1]#						Do the same as above for rhythm
             rhythm_options=rhythm_database.get(rhythm_key)
-            next_rhythm_state=random.choice(rhythm_options,[0.25,0.5,0.5,1.0,1.0,1.0,1.0,2.0,2.0,2.0])
+            next_rhythm_state=random.choice(rhythm_options)   #,[0.25,0.5,0.5,1.0,1.0,1.0,1.0,2.0,2.0,2.0])
             rhythm_output.append(next_rhythm_state)
 
         return (note_output,rhythm_output)
@@ -250,7 +252,7 @@ class MenuScreen(Screen):
         mf.open('markov_melody.mid', 'wb')#				Create a midi file to save to
         mf.write()#										save to this midi file
         mf.close()
-        os.system('/usr/bin/xdg-open ~/InteractiveProgramming-1/markov_melody.mid')#        This line opens the MIDI file with the default program
+        os.system('/usr/bin/xdg-open /home/bwerth/InteractiveProgramming-1/markov_melody.mid')#        This line opens the MIDI file with the default program
 
     def generate_song(self,length,dataset_index,note_seed,markov_order):
         scores=self.get_dataset(dataset_index)
