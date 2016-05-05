@@ -44,8 +44,8 @@
 <p>To actually generate a song from this information, our algorithm accepts the first note as input from the user.  If the user wishes to use markov chains higher than first order, the algorithm randomly selects the other notes in the seed.  It then uses this seed as a key and searches the markov dictionary for this key.  If the key does not appear in the dictionary, a random output note is selected to allow the program to continue.  If the key appears in the dictionary, the algorithm randomly selects an output state from the list of possible output states.  Because repeated transitions are included in that list, the probabilities of each transition are preserved.</p>
 <p>The same process is followed for selecting the rhythm of the piece except that currently due to constraints within the Graphical User Interface, the program does not accept a seed for the rhythm markov chain.  Instead, the program automatically uses half notes as the seed for the rhythm.</p>
 <figure>
-  <img src="implementationdiagram.png" alt="Implementation Diagram" style="width:304px;height:228px;"> 
-  <figcaption>An Example Markov Probability Map (note that in the case of markov chains for music composition, each possible state would be a musical note and there would be additional transitions between all of the different states as dictated by the training set used)</figcaption>
+  <img src="functiondiagram.png" alt="Function Diagram" style="width:304px;height:228px;"> 
+  <figcaption>Block Diagram Showing our Basic Program Structure</figcaption>
 </figure>
 <h3>
 <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
