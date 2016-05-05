@@ -156,7 +156,7 @@ def generate_string_3(note_seed,length,note_database,rhythm_database,rhythm_seed
     return (note_output,rhythm_output)
 
 def get_dataset(dataset_index=0):
-    path="/home/joseph/InteractiveProgramming-1/data{}".format(dataset_index)
+    path="/home/bwerth/InteractiveProgramming-1/data{}".format(dataset_index)
     scores=[]
     for filename in os.listdir(path):
         scores.append(converter.parse("{}/{}".format(path,filename)))
@@ -246,4 +246,12 @@ def generate_song(length,dataset_index,note_seed,markov_order):
     else:
         print "Sorry, that markov order is not an option"
 
+<<<<<<< HEAD
 generate_song(50,1,"C",3)
+=======
+<<<<<<< HEAD
+generate_song(50,0,["C","F","G"],[3.0,1.0,1.0],3)
+=======
+generate_song(50,0,"C",3)
+>>>>>>> 7d290548ff76d17e25205269ffa101da36d72d41
+>>>>>>> 895eec5465315d99a9b48ebe9e828438a88180be
