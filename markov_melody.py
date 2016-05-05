@@ -246,4 +246,4 @@ def generate_song(length,dataset_index,note_seed,markov_order):
     else:
         print "Sorry, that markov order is not an option"
 
-generate_song(50,0,"C",3)
+generate_song(50,1,"C",3)
